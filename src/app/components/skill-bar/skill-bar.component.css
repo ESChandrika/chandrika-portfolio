@@ -1,0 +1,23 @@
+:host{ display:block; margin:12px 0; }
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  margin-bottom:6px;
+  font-weight:700;
+}
+.pct{ color:#d1fae5; }
+
+.bar{
+  height:10px;
+  background:rgba(255,255,255,.06);
+  border-radius:999px;
+  overflow:hidden;
+}
+.fill{
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,#16a34a,#22c55e); /* emerald → mint */
+  transition:width 1s cubic-bezier(.2,.6,.2,1);
+}

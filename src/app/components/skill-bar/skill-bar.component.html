@@ -1,0 +1,9 @@
+<div class="skill">
+  <div class="row">
+    <span>{{ name }}</span>
+    <span class="pct">{{ displayPct }}% / 100%</span>
+  </div>
+  <div class="bar">
+    <div class="fill" [style.width.%]="filled ? pct : 0"></div>
+  </div>
+</div>

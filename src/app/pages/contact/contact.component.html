@@ -1,0 +1,27 @@
+<section class="section" appScrollReveal>
+  <div class="container">
+    <h2>Contact</h2>
+
+    <form class="dark-form" (ngSubmit)="send()">
+      <label>
+        <span class="muted">Name</span>
+        <input type="text" [(ngModel)]="name" name="name" required />
+      </label>
+
+      <label>
+        <span class="muted">Email</span>
+        <input type="email" [(ngModel)]="email" name="email" required />
+      </label>
+
+      <label>
+        <span class="muted">Message</span>
+        <textarea [(ngModel)]="message" name="message" required></textarea>
+      </label>
+
+      <div style="display:flex; gap:12px; align-items:center; margin-top:6px">
+        <button class="btn btn-primary" type="submit">Send</button>
+        <span class="help">or email: <a href="mailto:eschandu@gmail.com">eschandu@gmail.com</a></span>
+      </div>
+    </form>
+  </div>
+</section>

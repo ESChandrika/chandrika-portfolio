@@ -1,0 +1,152 @@
+<section class="section projects" appScrollReveal>
+  <div class="container">
+    <h2 class="fx-head">Recent Works</h2>
+
+    <!-- Filter chips -->
+    <div class="chips" style="margin-bottom:18px">
+      <button class="chip" *ngFor="let c of cats"
+              [class.active]="c === active"
+              (click)="setActive(c)">
+        {{ c }}
+      </button>
+    </div>
+
+    <!-- ============ ALL TAB ============ -->
+    <ng-container *ngIf="active === 'All'">
+      <ng-container *ngIf="feature as p; else noneAll">
+        <article class="card feature">
+          <h3 class="title">{{ p.title }}</h3>
+          <p class="muted" style="margin:6px 0 16px">{{ p.summary }}</p>
+
+          <div class="meta">
+            <ng-container *ngIf="p.code?.url; else privateCodeA">
+              Code: <a [href]="p.code?.url" target="_blank" rel="noopener">GitHub</a>
+            </ng-container>
+            <ng-template #privateCodeA>
+              <span>Code: <em>{{ p.code?.label || '–' }}</em></span>
+            </ng-template>
+            <span class="dot" *ngIf="p.demoNote">·</span>
+            <span class="muted" *ngIf="p.demoNote">{{ p.demoNote }}</span>
+          </div>
+
+          <!-- Carousel only when shots exist -->
+          <div class="shots card-lite" *ngIf="p.shots?.length">
+            <ng-container *ngIf="p.shots as shots">
+              <button class="nav prev" (click)="shotPrev(p)" aria-label="Previous image">‹</button>
+
+              <figure class="frame">
+                <img
+                  [src]="shots[shotIndex[p.title] || 0].src"
+                  [alt]="shots[shotIndex[p.title] || 0].caption" />
+                <figcaption>
+                  <strong>{{ shots[shotIndex[p.title] || 0].caption }}</strong>
+                  <span class="muted"> — {{ shots[shotIndex[p.title] || 0].explain }}</span>
+                </figcaption>
+              </figure>
+
+              <button class="nav next" (click)="shotNext(p)" aria-label="Next image">›</button>
+
+              <div class="dots" role="tablist" aria-label="Screenshots">
+                <button *ngFor="let s of shots; let i = index"
+                        [class.active]="(shotIndex[p.title] || 0) === i"
+                        (click)="shotGo(p,i)"
+                        [attr.aria-label]="'Go to slide ' + (i+1)">
+                </button>
+              </div>
+            </ng-container>
+          </div>
+
+          <!-- Responsibilities / Achievements -->
+          <div class="two-cols" *ngIf="p.responsibilities?.length || p.achievements?.length">
+            <div *ngIf="p.responsibilities?.length">
+              <h4>Responsibilities</h4>
+              <ul class="clean">
+                <li *ngFor="let r of p.responsibilities">{{ r }}</li>
+              </ul>
+            </div>
+            <div *ngIf="p.achievements?.length">
+              <h4>Achievements</h4>
+              <ul class="clean">
+                <li *ngFor="let a of p.achievements">{{ a }}</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Prev / Next only on All tab -->
+          <div class="footnav">
+            <button class="btn" (click)="prevProject()">‹ Prev project</button>
+            <button class="btn" (click)="nextProject()">Next project ›</button>
+          </div>
+        </article>
+      </ng-container>
+      <ng-template #noneAll>
+        <div class="card" style="text-align:center">No projects yet.</div>
+      </ng-template>
+    </ng-container>
+
+    <!-- ============ WEB APPS / ENTERPRISE TABS ============ -->
+    <ng-container *ngIf="active !== 'All'">
+      <ng-container *ngIf="list.length; else empty">
+        <div class="proj-list">
+          <article class="card feature" *ngFor="let p of list; trackBy: trackByTitle">
+            <h3 class="title">{{ p.title }}</h3>
+            <p class="muted" style="margin:6px 0 16px">{{ p.summary }}</p>
+
+            <div class="meta">
+              <ng-container *ngIf="p.code?.url; else privateCodeB">
+                Code: <a [href]="p.code?.url" target="_blank" rel="noopener">GitHub</a>
+              </ng-container>
+              <ng-template #privateCodeB>
+                <span>Code: <em>{{ p.code?.label || '–' }}</em></span>
+              </ng-template>
+              <span class="dot" *ngIf="p.demoNote">·</span>
+              <span class="muted" *ngIf="p.demoNote">{{ p.demoNote }}</span>
+            </div>
+
+            <!-- Carousel only when shots exist -->
+            <div class="shots card-lite" *ngIf="p.shots?.length">
+              <ng-container *ngIf="p.shots as shots">
+                <button class="nav prev" (click)="shotPrev(p)" aria-label="Previous image">‹</button>
+                <figure class="frame">
+                  <img
+                    [src]="shots[shotIndex[p.title] || 0].src"
+                    [alt]="shots[shotIndex[p.title] || 0].caption" />
+                  <figcaption>
+                    <strong>{{ shots[shotIndex[p.title] || 0].caption }}</strong>
+                    <span class="muted"> — {{ shots[shotIndex[p.title] || 0].explain }}</span>
+                  </figcaption>
+                </figure>
+                <button class="nav next" (click)="shotNext(p)" aria-label="Next image">›</button>
+                <div class="dots" role="tablist" aria-label="Screenshots">
+                  <button *ngFor="let s of shots; let i = index"
+                          [class.active]="(shotIndex[p.title] || 0) === i"
+                          (click)="shotGo(p,i)"></button>
+                </div>
+              </ng-container>
+            </div>
+
+            <div class="two-cols" *ngIf="p.responsibilities?.length || p.achievements?.length">
+              <div *ngIf="p.responsibilities?.length">
+                <h4>Responsibilities</h4>
+                <ul class="clean">
+                  <li *ngFor="let r of p.responsibilities">{{ r }}</li>
+                </ul>
+              </div>
+              <div *ngIf="p.achievements?.length">
+                <h4>Achievements</h4>
+                <ul class="clean">
+                  <li *ngFor="let a of p.achievements">{{ a }}</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+        </div>
+      </ng-container>
+      <ng-template #empty>
+        <div class="card" style="text-align:center">No projects in this category yet.</div>
+      </ng-template>
+    </ng-container>
+
+    <ng-template #privateCodeA></ng-template>
+  </div>
+</section>

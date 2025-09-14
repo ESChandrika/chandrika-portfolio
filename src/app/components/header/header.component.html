@@ -1,0 +1,16 @@
+<header [class.scrolled]="scrolled">
+  <div class="header-wrap">
+    <a routerLink="/" class="brand">CHANDRIKA</a>
+
+    <nav class="main">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a>
+      <a routerLink="/about" routerLinkActive="active">About</a>
+      <a routerLink="/skills" routerLinkActive="active">Skills</a>
+      <a routerLink="/projects" routerLinkActive="active">Projects</a>
+      <a routerLink="/experience" routerLinkActive="active">Journey</a>
+      <a routerLink="/contact" routerLinkActive="active">Contact</a>
+    </nav>
+
+    <a routerLink="/contact" class="hire">Hire Me</a>
+  </div>
+</header>
