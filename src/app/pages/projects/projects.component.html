@@ -30,7 +30,7 @@
           </div>
 
           <!-- Carousel only when shots exist -->
-          <div class="shots card-lite" *ngIf="p.shots?.length">
+          <!-- <div class="shots card-lite" *ngIf="p.shots?.length">
             <ng-container *ngIf="p.shots as shots">
               <button class="nav prev" (click)="shotPrev(p)" aria-label="Previous image">‹</button>
 
@@ -54,7 +54,7 @@
                 </button>
               </div>
             </ng-container>
-          </div>
+          </div> -->
 
           <!-- Responsibilities / Achievements -->
           <div class="two-cols" *ngIf="p.responsibilities?.length || p.achievements?.length">
@@ -104,7 +104,7 @@
             </div>
 
             <!-- Carousel only when shots exist -->
-            <div class="shots card-lite" *ngIf="p.shots?.length">
+            <!-- <div class="shots card-lite" *ngIf="p.shots?.length">
               <ng-container *ngIf="p.shots as shots">
                 <button class="nav prev" (click)="shotPrev(p)" aria-label="Previous image">‹</button>
                 <figure class="frame">
@@ -123,7 +123,7 @@
                           (click)="shotGo(p,i)"></button>
                 </div>
               </ng-container>
-            </div>
+            </div> -->
 
             <div class="two-cols" *ngIf="p.responsibilities?.length || p.achievements?.length">
               <div *ngIf="p.responsibilities?.length">

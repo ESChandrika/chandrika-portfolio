@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'about', component: AboutComponent, title: 'About | Chandrika' },
   { path: 'skills', component: SkillsComponent, title: 'Skills | Chandrika' },
   { path: 'projects', component: ProjectsComponent, title: 'Projects | Chandrika' },
-  { path: 'experience', component: ExperienceComponent, title: 'Experience | Chandrika' },
+  { path: 'journey', component: ExperienceComponent, title: 'Experience | Chandrika' },
   { path: 'contact', component: ContactComponent, title: 'Contact | Chandrika' },
   { path: '**', redirectTo: '' }
 ];

@@ -12,9 +12,9 @@ type Project = {
   title: string;
   cat: 'Web Apps' | 'Enterprise';
   summary: string;
-  code?: { url?: string; label?: string }; // If no url, label is shown (e.g., "GitHub (private)")
+  code?: { url?: string; label?: string };
   demoNote?: string;
-  shots?: Shot[];                           // Optional; if empty/omitted -> carousel hidden
+  shots?: Shot[];
   responsibilities?: string[];
   achievements?: string[];
 };
@@ -34,58 +34,80 @@ export class ProjectsComponent {
       title: 'Glossary Management System — Angular 16',
       cat: 'Web Apps',
       summary:
-        'Terminology platform that standardises terms and speeds up discovery across sub-glossaries. Built with Angular 16, routing/forms/state basics, AgGrid and REST integration.',
+        'A web app that standardises terminology and speeds discovery across sub-glossaries. Built with a component-driven UI, REST integration and data-dense views for fast search and review.',
       code: { label: 'GitHub (private)' },
       demoNote: 'Live demo available on request',
       shots: [
-        { src: 'assets/projects/glossary/shot1.png', caption: 'Owner & sub-glossary selection', explain: 'Role-based access, scoped views.' },
-        { src: 'assets/projects/glossary/shot2.png', caption: 'Term search & synonyms', explain: 'Fast discovery with fuzzy matching.' },
-        { src: 'assets/projects/glossary/shot3.png', caption: 'Grid + filters', explain: 'AgGrid with custom cells & filters.' }
+        {
+          src: 'assets/projects/glossary/shot1.png',
+          caption: 'Owner & sub-glossary selection',
+          explain: 'Role-based access with scoped views for owners and contributors.'
+        },
+        {
+          src: 'assets/projects/glossary/shot2.png',
+          caption: 'Term search & synonyms',
+          explain: 'Fuzzy matching + synonym groups for faster term retrieval.'
+        },
+        {
+          src: 'assets/projects/glossary/shot3.png',
+          caption: 'Grid + filters',
+          explain: 'AgGrid custom cells, column filters and virtualised lists.'
+        }
       ],
       responsibilities: [
-        'Angular 16 UI: routing, forms, reusable components',
-        'AgGrid: filters, custom cell renderers, dense layouts',
-        'REST integration & error handling',
-        'Responsive & accessible (WCAG)'
+        'Designed a modular Angular 16 front end: routing, forms and reusable components',
+        'Implemented REST API integration, error handling and empty/error states',
+        'Built AgGrid views with custom cell renderers, quick filters and dense layouts',
+        'Shipped responsive, WCAG-aware pages with pragmatic a11y checks',
+        'Documented patterns for UI/data flows and handover'
       ],
       achievements: [
-        'Client-approved UI framework for wider rollout',
-        'Search time reduced with smarter filters & synonyms'
+        'Delivered a client-approved UI framework adopted beyond the pilot',
+        'Reduced search time with synonym matching and tuned grid filtering'
       ]
     },
+
     {
-      title: 'Infosys — Helix Migration & UI Standardisation',
+      title: 'Infosys — Helix Platform: UI Standardisation',
       cat: 'Enterprise',
       summary:
-        'Contributed to UI standardisation, accessibility and performance checks. Streamlined documentation and patterns for faster delivery across teams.',
-      code: { url: 'https://example.com/helix-overview' },
-      demoNote: 'Internal demo on request',
-      // no shots
+        'Contributed to a large-scale healthcare insurance platform, focusing on reusable front-end architecture, accessibility and performance to increase delivery speed across squads.',
+      // (No public repo for enterprise work)
+      demoNote: 'Internal demo / overview available on request',
       responsibilities: [
-        'Design system alignment & reuse',
-        'WCAG & responsive layouts',
-        'Perf-focused reviews'
+        'Built reusable Angular component libraries aligned with SOLID practices',
+        'Integrated front end with Spring Boot APIs; added guards/interceptors',
+        'Applied WCAG and responsive patterns to shared templates and flows',
+        'Implemented AgGrid for heavy datasets: lazy loading, custom rendering'
       ],
       achievements: [
-        'Reduced UI inconsistencies across squads',
-        'Improved onboarding via clear docs'
+        'Helped secure two US healthcare clients through successful product demos',
+        'Improved delivery speed by ~25% via standardised components and docs',
+        'Supported CI/CD with Jenkins, Docker and Azure; mentored a 6-member team'
       ]
     },
+
     {
-      title: 'React — Commerce (WIP)',
+      title: 'React Commerce (WIP)',
       cat: 'Web Apps',
       summary:
-        'Learning build for a simple storefront (routing, state basics, API integration).',
-      code: { url: 'https://github.com/ESChandrika/react-commerce' },
-      demoNote: 'Demo link on request'
-      // no shots
+        'In development 1st phase — online website for a small business, built with React: responsive storefront with product list, basic cart/checkout, and REST API integration.',
+      
+     
+      responsibilities: [
+        'Set up React app structure with routed pages and guarded views',
+        'Integrated REST endpoints for catalog and cart operations',
+        'Exploring Redux-style state patterns and API middleware',
+        'Mobile-first UI and accessibility checks'
+      ],
+      
     }
   ];
 
-  // per-project screenshot index
+  // per-project screenshot index (only used when shots exist)
   shotIndex: Record<string, number> = {};
 
-  // used only on the "All" tab to step through projects
+  // used only on the "All" tab to step through feature projects
   featureIdx = 0;
 
   constructor() {
@@ -110,9 +132,10 @@ export class ProjectsComponent {
   get feature(): Project | undefined {
     const l = this.list;
     return l.length ? l[this.featureIdx % l.length] : undefined;
+    // prev/next buttons only render on the All tab per your template
   }
 
-  // prev/next only used on "All"
+  // Prev/Next only on “All”
   prevProject() {
     const l = this.list.length;
     if (!l) return;
@@ -124,18 +147,21 @@ export class ProjectsComponent {
     this.featureIdx = (this.featureIdx + 1) % l;
   }
 
-  // carousel helpers (only for projects with shots)
+  // Carousel helpers (for projects that have screenshots)
   shotPrev(p: Project) {
-    const n = p.shots!.length;
+    if (!p.shots?.length) return;
+    const n = p.shots.length;
     const idx = this.shotIndex[p.title] ?? 0;
     this.shotIndex[p.title] = (idx - 1 + n) % n;
   }
   shotNext(p: Project) {
-    const n = p.shots!.length;
+    if (!p.shots?.length) return;
+    const n = p.shots.length;
     const idx = this.shotIndex[p.title] ?? 0;
     this.shotIndex[p.title] = (idx + 1) % n;
   }
   shotGo(p: Project, i: number) {
+    if (!p.shots?.length) return;
     this.shotIndex[p.title] = i;
   }
 
