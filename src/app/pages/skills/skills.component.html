@@ -1,29 +1,17 @@
 <section class="section" appScrollReveal>
   <div class="container">
-    <h2 class="fx-head">Skills</h2>
+    <h2>Skills</h2>
 
-    <div class="skills-layout">
-      <!-- LEFT: animated bar cards -->
-      <div class="bars-col">
-        <div class="card" *ngFor="let sec of barSections">
-          <h3 class="group">{{ sec.title }}</h3>
-          <app-skill-bar
-            *ngFor="let s of sec.items"
-            [name]="s.name"
-            [pct]="s.pct">
-          </app-skill-bar>
-        </div>
-      </div>
+    <div class="skills-grid">
+      <article class="card" *ngFor="let sec of sections">
+        <h3 class="sec-title">{{ sec.title }}</h3>
 
-      <!-- RIGHT: chips-only cards -->
-      <div class="chips-col">
-        <div class="card" *ngFor="let sec of chipSections">
-          <h3 class="group">{{ sec.title }}</h3>
-          <ul class="chips-list">
-            <li class="chip" *ngFor="let item of sec.items">{{ item }}</li>
-          </ul>
+        <div class="chips skills-chips">
+          <span class="chip" *ngFor="let item of sec.items">
+            {{ item }}
+          </span>
         </div>
-      </div>
+      </article>
     </div>
   </div>
 </section>
