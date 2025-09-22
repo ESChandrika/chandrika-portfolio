@@ -1,0 +1,16 @@
+/* Journey: two columns on desktop */
+.timeline{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:24px;
+}
+
+/* ⬇️ Stack on phones/tablets */
+@media (max-width: 900px){
+  .timeline{
+    grid-template-columns: 1fr;   /* Education first, Experience below */
+  }
+  .timeline > .card{
+    min-width: 0;                 /* prevent overflow on small screens */
+  }
+}

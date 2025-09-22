@@ -12,7 +12,7 @@ type Project = {
   title: string;
   cat: 'Web Apps' | 'Enterprise';
   summary: string;
-  code?: { url?: string; label?: string };
+  code?: { url?: string; label?: string }; // omit entirely if no code to show
   demoNote?: string;
   shots?: Shot[];
   responsibilities?: string[];
@@ -25,7 +25,6 @@ type Project = {
   styleUrls: ['./projects.component.css']
 })
 export class ProjectsComponent {
-
   cats: Cat[] = ['All', 'Web Apps', 'Enterprise'];
   active: Cat = 'All';
 
@@ -38,21 +37,9 @@ export class ProjectsComponent {
       code: { label: 'GitHub (private)' },
       demoNote: 'Live demo available on request',
       shots: [
-        {
-          src: 'assets/projects/glossary/shot1.png',
-          caption: 'Owner & sub-glossary selection',
-          explain: 'Role-based access with scoped views for owners and contributors.'
-        },
-        {
-          src: 'assets/projects/glossary/shot2.png',
-          caption: 'Term search & synonyms',
-          explain: 'Fuzzy matching + synonym groups for faster term retrieval.'
-        },
-        {
-          src: 'assets/projects/glossary/shot3.png',
-          caption: 'Grid + filters',
-          explain: 'AgGrid custom cells, column filters and virtualised lists.'
-        }
+        { src: 'assets/projects/glossary/shot1.png', caption: 'Owner & sub-glossary selection', explain: 'Role-based access with scoped views for owners and contributors.' },
+        { src: 'assets/projects/glossary/shot2.png', caption: 'Term search & synonyms', explain: 'Fuzzy matching + synonym groups for faster term retrieval.' },
+        { src: 'assets/projects/glossary/shot3.png', caption: 'Grid + filters', explain: 'AgGrid custom cells, column filters and virtualised lists.' }
       ],
       responsibilities: [
         'Designed a modular Angular 16 front end: routing, forms and reusable components',
@@ -72,8 +59,7 @@ export class ProjectsComponent {
       cat: 'Enterprise',
       summary:
         'Contributed to a large-scale healthcare insurance platform, focusing on reusable front-end architecture, accessibility and performance to increase delivery speed across squads.',
-      // (No public repo for enterprise work)
-      demoNote: 'Internal demo / overview available on request',
+      // no code, no demoNote (so nothing renders there)
       responsibilities: [
         'Built reusable Angular component libraries aligned with SOLID practices',
         'Integrated front end with Spring Boot APIs; added guards/interceptors',
@@ -91,23 +77,21 @@ export class ProjectsComponent {
       title: 'React Commerce (WIP)',
       cat: 'Web Apps',
       summary:
-        'In development 1st phase — online website for a small business, built with React: responsive storefront with product list, basic cart/checkout, and REST API integration.',
-      
-     
+        'In development (phase-1) — online website for a small business, built with React: responsive storefront with product list, basic cart/checkout, and REST API integration.',
+      // no code, no demoNote
       responsibilities: [
         'Set up React app structure with routed pages and guarded views',
         'Integrated REST endpoints for catalog and cart operations',
         'Exploring Redux-style state patterns and API middleware',
         'Mobile-first UI and accessibility checks'
-      ],
-      
+      ]
     }
   ];
 
   // per-project screenshot index (only used when shots exist)
   shotIndex: Record<string, number> = {};
 
-  // used only on the "All" tab to step through feature projects
+  // feature index used on “All” tab
   featureIdx = 0;
 
   constructor() {
@@ -121,33 +105,37 @@ export class ProjectsComponent {
     this.featureIdx = 0; // reset when switching tabs
   }
 
-  // list for current tab
+  // current list for tab
   get list(): Project[] {
     return this.active === 'All'
       ? this.projects
       : this.projects.filter(p => p.cat === this.active);
   }
 
-  // feature project for "All" tab
+  // current feature project for the All tab (no wrap)
   get feature(): Project | undefined {
     const l = this.list;
-    return l.length ? l[this.featureIdx % l.length] : undefined;
-    // prev/next buttons only render on the All tab per your template
+    return l.length ? l[this.featureIdx] : undefined;
   }
 
-  // Prev/Next only on “All”
-  prevProject() {
-    const l = this.list.length;
-    if (!l) return;
-    this.featureIdx = (this.featureIdx - 1 + l) % l;
+  // buttons’ disabled flags
+  get isFirst(): boolean {
+    return this.list.length === 0 || this.featureIdx <= 0;
   }
-  nextProject() {
-    const l = this.list.length;
-    if (!l) return;
-    this.featureIdx = (this.featureIdx + 1) % l;
+  get isLast(): boolean {
+    const last = Math.max(0, this.list.length - 1);
+    return this.list.length === 0 || this.featureIdx >= last;
   }
 
-  // Carousel helpers (for projects that have screenshots)
+  // Prev/Next (no wrap)
+  prevProject(): void {
+    if (!this.isFirst) this.featureIdx--;
+  }
+  nextProject(): void {
+    if (!this.isLast) this.featureIdx++;
+  }
+
+  // Carousel helpers (guard when no shots)
   shotPrev(p: Project) {
     if (!p.shots?.length) return;
     const n = p.shots.length;

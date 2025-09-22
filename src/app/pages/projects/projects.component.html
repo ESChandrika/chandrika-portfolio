@@ -4,9 +4,7 @@
 
     <!-- Filter chips -->
     <div class="chips" style="margin-bottom:18px">
-      <button class="chip" *ngFor="let c of cats"
-              [class.active]="c === active"
-              (click)="setActive(c)">
+      <button class="chip" *ngFor="let c of cats" [class.active]="c === active" (click)="setActive(c)">
         {{ c }}
       </button>
     </div>
@@ -18,26 +16,30 @@
           <h3 class="title">{{ p.title }}</h3>
           <p class="muted" style="margin:6px 0 16px">{{ p.summary }}</p>
 
-          <div class="meta">
-            <ng-container *ngIf="p.code?.url; else privateCodeA">
-              Code: <a [href]="p.code?.url" target="_blank" rel="noopener">GitHub</a>
-            </ng-container>
-            <ng-template #privateCodeA>
-              <span>Code: <em>{{ p.code?.label || '–' }}</em></span>
-            </ng-template>
-            <span class="dot" *ngIf="p.demoNote">·</span>
-            <span class="muted" *ngIf="p.demoNote">{{ p.demoNote }}</span>
-          </div>
+         <!-- Meta: show "Code:" only if code exists -->
+<div class="meta">
+  <!-- URL case -->
+  <ng-container *ngIf="p.code?.url as url">
+    Code: <a [href]="url" target="_blank" rel="noopener">GitHub</a>
+    <span class="dot" *ngIf="p.demoNote">·</span>
+  </ng-container>
 
-          <!-- Carousel only when shots exist -->
+  <!-- Label-only case (e.g., 'GitHub (private)') -->
+  <ng-container *ngIf="!p.code?.url && p.code?.label as label">
+    Code: <em>{{ label }}</em>
+    <span class="dot" *ngIf="p.demoNote">·</span>
+  </ng-container>
+
+  <!-- Demo note shows regardless; no leading dot if no code above -->
+  <span class="muted" *ngIf="p.demoNote">{{ p.demoNote }}</span>
+</div>
+          <!-- Carousel (only if shots exist) -->
           <!-- <div class="shots card-lite" *ngIf="p.shots?.length">
             <ng-container *ngIf="p.shots as shots">
               <button class="nav prev" (click)="shotPrev(p)" aria-label="Previous image">‹</button>
 
               <figure class="frame">
-                <img
-                  [src]="shots[shotIndex[p.title] || 0].src"
-                  [alt]="shots[shotIndex[p.title] || 0].caption" />
+                <img [src]="shots[shotIndex[p.title] || 0].src" [alt]="shots[shotIndex[p.title] || 0].caption" />
                 <figcaption>
                   <strong>{{ shots[shotIndex[p.title] || 0].caption }}</strong>
                   <span class="muted"> — {{ shots[shotIndex[p.title] || 0].explain }}</span>
@@ -47,10 +49,8 @@
               <button class="nav next" (click)="shotNext(p)" aria-label="Next image">›</button>
 
               <div class="dots" role="tablist" aria-label="Screenshots">
-                <button *ngFor="let s of shots; let i = index"
-                        [class.active]="(shotIndex[p.title] || 0) === i"
-                        (click)="shotGo(p,i)"
-                        [attr.aria-label]="'Go to slide ' + (i+1)">
+                <button *ngFor="let s of shots; let i = index" [class.active]="(shotIndex[p.title] || 0) === i"
+                  (click)="shotGo(p,i)" [attr.aria-label]="'Go to slide ' + (i+1)">
                 </button>
               </div>
             </ng-container>
@@ -72,13 +72,18 @@
             </div>
           </div>
 
-          <!-- Prev / Next only on All tab -->
+          <!-- Prev / Next (disabled at ends) -->
           <div class="footnav">
-            <button class="btn" (click)="prevProject()">‹ Prev project</button>
-            <button class="btn" (click)="nextProject()">Next project ›</button>
+            <button class="btn" (click)="prevProject()" [disabled]="isFirst"
+              [attr.aria-disabled]="isFirst ? true : null">‹ Prev project</button>
+
+            <button class="btn" (click)="nextProject()" [disabled]="isLast"
+              [attr.aria-disabled]="isLast ? true : null">Next project ›</button>
           </div>
+
         </article>
       </ng-container>
+
       <ng-template #noneAll>
         <div class="card" style="text-align:center">No projects yet.</div>
       </ng-template>
@@ -103,24 +108,24 @@
               <span class="muted" *ngIf="p.demoNote">{{ p.demoNote }}</span>
             </div>
 
-            <!-- Carousel only when shots exist -->
+            <!-- Carousel (only if shots exist) -->
             <!-- <div class="shots card-lite" *ngIf="p.shots?.length">
               <ng-container *ngIf="p.shots as shots">
                 <button class="nav prev" (click)="shotPrev(p)" aria-label="Previous image">‹</button>
+
                 <figure class="frame">
-                  <img
-                    [src]="shots[shotIndex[p.title] || 0].src"
-                    [alt]="shots[shotIndex[p.title] || 0].caption" />
+                  <img [src]="shots[shotIndex[p.title] || 0].src" [alt]="shots[shotIndex[p.title] || 0].caption" />
                   <figcaption>
                     <strong>{{ shots[shotIndex[p.title] || 0].caption }}</strong>
                     <span class="muted"> — {{ shots[shotIndex[p.title] || 0].explain }}</span>
                   </figcaption>
                 </figure>
+
                 <button class="nav next" (click)="shotNext(p)" aria-label="Next image">›</button>
+
                 <div class="dots" role="tablist" aria-label="Screenshots">
-                  <button *ngFor="let s of shots; let i = index"
-                          [class.active]="(shotIndex[p.title] || 0) === i"
-                          (click)="shotGo(p,i)"></button>
+                  <button *ngFor="let s of shots; let i = index" [class.active]="(shotIndex[p.title] || 0) === i"
+                    (click)="shotGo(p,i)"></button>
                 </div>
               </ng-container>
             </div> -->
@@ -142,11 +147,13 @@
           </article>
         </div>
       </ng-container>
+
       <ng-template #empty>
         <div class="card" style="text-align:center">No projects in this category yet.</div>
       </ng-template>
     </ng-container>
 
+    <!-- avoid "missing template" warning -->
     <ng-template #privateCodeA></ng-template>
   </div>
 </section>

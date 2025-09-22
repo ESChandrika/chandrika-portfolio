@@ -1,65 +1,41 @@
-.site-footer { padding: 18px 0; border-top: 1px solid var(--line, #22302a); }
+.app-footer {
+  background: #0b1210;
+  border-top: 1px solid rgba(255,255,255,.06);
+  padding: 16px 0;
+}
 
-.footer-wrap{
+.foot-wrap {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center;
-  gap: 24px;
-  flex-wrap: wrap;
+  gap: 24px;               /* space between left + right blocks */
+  margin-left: 0px;
 }
 
-/* Primary approach: flex + gap */
-.site-footer .foot-links{
-  display: flex !important;         /* force flex in case of global overrides */
-  align-items: center;
-  gap: 20px;                        /* << space between GitHub / Email / LinkedIn */
-}
-
-/* Fallback for environments where gap is ignored OR if some rule still wins */
-@supports not (gap: 1rem) {
-  .site-footer .foot-links a + a { margin-left: 20px; }
-}
-
-/* Extra fallback: if flex somehow gets overridden, still add spacing */
-.site-footer .foot-links a + a { margin-left: 20px; }
-
-/* Cosmetics */
-.site-footer .foot-links a{
-  color: var(--muted, #9fb1aa);
-  text-decoration: none;
-  font-weight: 600;
-  margin-right: 10px !important;
-}
-.site-footer .foot-links a:hover{ color:#fff; }
-.site-footer { padding: 18px 0; border-top: 1px solid var(--line, #22302a); }
-
-.footer-wrap{
+.foot-links {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 24px;
-  flex-wrap: wrap;
+  gap: 24px;               /* <-- spacing between GitHub / Email / LinkedIn */
+  flex-wrap: wrap;         /* wrap neatly on small screens */
+  
 }
 
-/* Primary approach: flex + gap */
-.site-footer .foot-links{
-  display: flex !important;         /* force flex in case of global overrides */
-  align-items: center;
-  gap: 20px;                        /* << space between GitHub / Email / LinkedIn */
-}
-
-/* Fallback for environments where gap is ignored OR if some rule still wins */
-@supports not (gap: 1rem) {
-  .site-footer .foot-links a + a { margin-left: 20px; }
-}
-
-/* Extra fallback: if flex somehow gets overridden, still add spacing */
-.site-footer .foot-links a + a { margin-left: 20px; }
-
-/* Cosmetics */
-.site-footer .foot-links a{
-  color: var(--muted, #9fb1aa);
+.foot-links a {
+  color: #cbd5e1;
   text-decoration: none;
-  font-weight: 600;
+  white-space: nowrap;     /* keep each label intact */
+  opacity: .9;
+  
+ 
 }
-.site-footer .foot-links a:hover{ color:#fff; }
+
+.foot-links a:hover { opacity: 1; text-decoration: underline; }
+
+@media (max-width: 720px) {
+  .foot-wrap {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .foot-links { gap: 16px; }
+}

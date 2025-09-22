@@ -19,16 +19,6 @@
   <router-outlet></router-outlet>
 </main>
 
-<footer>
-  <div class="container foot">
-    <!-- ✅ no `new Date()` in template; uses component property -->
-    <span>© {{ year }} Chandrika Endukuru · Sydney, Australia</span>
-    <span class="foot-links">
-      <a href="https://github.com/ESChandrika" target="_blank" rel="noopener">GitHub</a>
-      <a href="mailto:eschandu@gmail.com">Email</a>
-      <a href="https://www.linkedin.com/in/chandrika-endukuru" target="_blank" rel="noopener">LinkedIn</a>
-    </span>
-  </div>
-</footer>
+<app-footer></app-footer>
 
 <button class="toTop" *ngIf="showTop" (click)="goTop()" aria-label="Back to top">↑</button>

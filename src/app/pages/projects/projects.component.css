@@ -89,3 +89,28 @@
   display:flex; justify-content:space-between; gap:12px;
   margin-top:12px;
 }
+/* layout helpers you may already have */
+.feature .meta .dot { margin: 0 6px; }
+.two-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+@media (max-width: 900px) {
+  .two-cols { grid-template-columns: 1fr; }
+}
+
+/* bottom nav row */
+.footnav{
+  display:flex;
+  gap:12px;
+  justify-content:flex-end;
+  margin-top:14px;
+}
+
+/* visual for disabled buttons */
+.btn[disabled]{
+  opacity:.45;
+  cursor:not-allowed;
+  filter: grayscale(.2);
+}

@@ -39,18 +39,7 @@ nav.main a:hover, nav.main a.active{ background: rgba(34,197,94,.12); color:#ecf
 
 main{ min-height: 64vh; }
 
-/* Footer */
-footer{
-  border-top:1px solid rgba(255,255,255,.06);
-  background:#0b1114;
-}
-.foot{
-  display:flex; align-items:center; justify-content:space-between;
-  gap:12px; padding:18px 16px;
-  color:#9fb2b9;
-}
-.foot a{ color:#c7d2d9; text-decoration:none; }
-.foot a:hover{ color:#ecfdf5; }
+
 
 /* Top button */
 .toTop{
